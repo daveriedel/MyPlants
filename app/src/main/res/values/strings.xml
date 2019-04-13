@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">My Plants</string>
+    <string name="username_textview">Gebruikersnaam</string>
+    <string name="password_textview">Wachtwoord</string>
+    <string name="login_button">Inloggen</string>
+
+    <string name="register_link">Registreren</string>
+    <string name="username_textfiedl">Gebruikersnaam</string>
+    <string name="email_textview">E-mail</string>
+
+    <string name="menu_login">Login/Registreren</string>
+    <string name="menu_my_account">Mijn account</string>
+    <string name="menu_my_plants">Mijn planten</string>
+    <string name="menu_logout">Uitloggen</string>
+    <string name="menu_contact">Contact</string>
+
+</resources>

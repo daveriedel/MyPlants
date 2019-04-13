@@ -1,0 +1,44 @@
+{
+  "project_info": {
+    "project_number": "220355817061",
+    "firebase_url": "https://plantsapp-e1d59.firebaseio.com",
+    "project_id": "plantsapp-e1d59",
+    "storage_bucket": "plantsapp-e1d59.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220355817061:android:cc42013673cab9c2",
+        "android_client_info": {
+          "package_name": "com.bitsanddroids.myplants"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "220355817061-l0qsv0jp11q650il52gf120vnemkh8vs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bitsanddroids.myplants",
+            "certificate_hash": "cba267e26f48b92b199dc169a1e95b9c7a56922c"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbrtfmk_QlufraButevyp_9TlOpb2M_38"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "220355817061-p618558g20j6tj4shichlvqj3n3hic66.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
