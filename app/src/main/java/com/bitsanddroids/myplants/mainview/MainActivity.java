@@ -71,7 +71,26 @@ public class MainActivity extends AppCompatActivity {
         initRecyclerView();
 
 
-      s
+      /*  Plant plant1 = new Plant("Koriander","https://vertisign.nl/wp-content/uploads/2018/08/2578_580_580.jpg",1,1,1,3,true);
+        Plant plant2 = new Plant("Munt", "https://stadstuinderij.nl/wp-content/uploads/2018/07/Munt-300x225.jpg",1,1,1,3,true);
+        plants.add(plant1);
+        plants.add(plant2);
+
+        for(Plant plant:
+        plants){
+
+            db.collection("planten")
+                    .add(plant)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Log.d("Succes", "Document added with id:" + documentReference);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w("Error", "Error adding document", e);
+                }
             });
 
         }*/
