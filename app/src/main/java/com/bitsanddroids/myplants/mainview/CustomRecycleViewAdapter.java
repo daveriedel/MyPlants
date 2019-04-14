@@ -10,56 +10,74 @@ import android.widget.TextView;
 
 import com.bitsanddroids.myplants.R;
 import com.bitsanddroids.myplants.plants.Plant;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CustomRecycleViewAdapter extends RecyclerView.Adapter<CustomRecycleViewAdapter.ViewHolder> {
 
-    Context mContext;
-    ArrayList<Plant> plants;
-    HashMap<String, Plant> plantsMap;
 
-    public CustomRecycleViewAdapter(ArrayList<Plant> plants, ArrayList<String> plantId, Context context) {
+    private Context mContext;
+    private ArrayList<Plant> plants;
+
+
+    public CustomRecycleViewAdapter(ArrayList<Plant> plants, Context context) {
         this.mContext = context;
         this.plants = plants;
 
     }
-
+    //when the viewholder is created
     @NonNull
     @Override
-    public CustomRecycleViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Loading the child layout to populate the recyclerview
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.plant_recyclerview_item, parent, false);
-        return new ViewHolder(view);
-    }
 
+        return new ViewHolder(view);
+
+    }
+    //setup each individual recyclerview item
     @Override
-    public void onBindViewHolder(@NonNull CustomRecycleViewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+
+        //Set plantName Textview to plants name
+        holder.plantName.setText(plants.get(position).getName());
+        //Load image as bitmap from image URL to imageView
+        Glide.with(mContext)
+                .asBitmap()
+                .load(plants.get(position).getImageUrl())
+                .into(holder.plantImage);
 
     }
 
     @Override
     public int getItemCount() {
-        return plantsMap.size();
+        return plants.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView plantImage;
+        CircleImageView plantImage;
         ImageView placementIcon;
         ImageView sunIcon;
         TextView plantName;
         Button collectionButton;
+        ConstraintLayout parentLayout;
 
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             plantImage = itemView.findViewById(R.id.plantImageView);
             placementIcon = itemView.findViewById(R.id.placementImageView);
             sunIcon = itemView.findViewById(R.id.sunImageView);
+            parentLayout = itemView.findViewById(R.id.plantItemConstraintLayout);
             plantName = itemView.findViewById(R.id.plantNameTextview);
             collectionButton = itemView.findViewById(R.id.collectionButton);
         }
