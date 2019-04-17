@@ -13,14 +13,20 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.bitsanddroids.myplants.R;
+import com.bitsanddroids.myplants.plants.PersonalPlant;
 import com.bitsanddroids.myplants.plants.Plant;
 import com.bitsanddroids.myplants.userauthentication.LoginActivity;
 import com.bitsanddroids.myplants.userauthentication.RegisterActivity;
+import com.bitsanddroids.myplants.userauthentication.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -29,9 +35,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.google.firebase.firestore.FieldValue.arrayUnion;
+
 public class MainActivity extends AppCompatActivity {
 
     public ArrayList<Plant> plants;
+    private static FirebaseUser firebaseUser;
+    private FirebaseAuth auth;
+    private FirebaseFirestore db;
+    private static User user;
     private CustomRecycleViewAdapter adapter;
 
     @Override
@@ -53,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.myPlants:
 
             case R.id.logoutMenu:
-
+                logOut();
+                break;
             case R.id.contactMenu:
 
 
@@ -67,6 +80,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         plants = new ArrayList<>();
+
+        auth = FirebaseAuth.getInstance();
+        firebaseUser = auth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+
+        if(firebaseUser != null) {
+            DocumentReference reference = db.collection("users").document(firebaseUser.getUid());
+            reference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    user = documentSnapshot.toObject(User.class);
+                }
+            });
+        }
 
         initRecyclerView();
 
@@ -102,8 +129,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void logOut(){
+        FirebaseAuth.getInstance().signOut();
+    }
+
     public void initPlants(){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         db.collection("planten")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -122,6 +153,18 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    public static void addPlant(Plant plant){
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(firebaseUser != null) {
+            PersonalPlant personalPlant = new PersonalPlant(plant.getName(), plant.getImageUrl(), plant.getSun(), plant.getPlacement(), plant.getToxic(), plant.getWater(), plant.isEdible(), user.getUserId());
+            user.addPlant(personalPlant);
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference personalPlantsRef = db.collection("users").document(user.getUserId());
+            personalPlantsRef.set(user);
+
+        }
     }
 
     public void initRecyclerView(){

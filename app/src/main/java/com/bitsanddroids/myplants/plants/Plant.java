@@ -17,7 +17,7 @@ public class Plant {
 
     public Plant(String name, String imageUrl, int sun, int placement, int toxic, int water, boolean edible) {
         this.name = name;
-        ImageUrl = imageUrl;
+        this.ImageUrl = imageUrl;
         this.sun = sun;
         this.placement = placement;
         this.toxic = toxic;

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bitsanddroids.myplants.R;
+import com.bitsanddroids.myplants.mainview.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -62,11 +63,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login() {
+        final Intent intent = new Intent(this, MainActivity.class);
         auth.signInWithEmailAndPassword(usernameEditText.getText().toString(), passwordEditText.getText().toString()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     FirebaseUser user = auth.getCurrentUser();
+                    startActivity(intent);
+
                 } else {
                     Toast.makeText(LoginActivity.this, "Could not log you in", Toast.LENGTH_SHORT).show();
                 }

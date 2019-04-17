@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bitsanddroids.myplants.R;
 import com.bitsanddroids.myplants.plants.Plant;
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,6 +55,17 @@ public class CustomRecycleViewAdapter extends RecyclerView.Adapter<CustomRecycle
                 .asBitmap()
                 .load(plants.get(position).getImageUrl())
                 .into(holder.plantImage);
+        //check if user is signed in if not hide add to account button
+        if(FirebaseAuth.getInstance().getCurrentUser() == null){
+            holder.collectionButton.setVisibility(View.INVISIBLE);
+        }
+        //onclick listener for the
+        holder.collectionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.addPlant(plants.get(position));
+            }
+        });
 
     }
 

@@ -17,6 +17,10 @@ public class PersonalPlant {
 
     private String userID;
 
+    public PersonalPlant(){
+
+    }
+
     public PersonalPlant(String name, String imageUrl, int sun, int placement, int toxic, int water, boolean edible, String userID) {
         this.name = name;
         ImageUrl = imageUrl;
