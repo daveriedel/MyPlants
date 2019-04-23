@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 public class User {
     private String userId;
     private String username;
-    private ArrayList<PersonalPlant> personalPlants;
+    private ArrayList<PersonalPlant> personalPlants = new ArrayList<>();
 
     public User(){
 
@@ -25,7 +25,11 @@ public class User {
     public User(String userId, String username) {
         this.userId = userId;
         this.username = username;
-        this.personalPlants = new ArrayList<>();
+    }
+    public User(String userId, String username, ArrayList<PersonalPlant> personalPlants) {
+        this.userId = userId;
+        this.username = username;
+        this.personalPlants = personalPlants;
     }
 
     public String getUserId() {

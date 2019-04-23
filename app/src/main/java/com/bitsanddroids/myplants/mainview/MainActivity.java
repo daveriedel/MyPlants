@@ -63,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.myAccountMenu:
 
             case R.id.myPlants:
-
+                myPlants();
+                break;
             case R.id.logoutMenu:
                 logOut();
                 break;
@@ -131,6 +132,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void logOut(){
         FirebaseAuth.getInstance().signOut();
+    }
+
+    public void myPlants(){
+        Intent intent = new Intent(this, PersonalPlantActivity.class);
+        startActivity(intent);
     }
 
     public void initPlants(){
