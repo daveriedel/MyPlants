@@ -1,6 +1,7 @@
 package com.bitsanddroids.myplants.mainview;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,11 +51,17 @@ public class PersonalCustomRecycleViewAdapter extends RecyclerView.Adapter<Perso
 
         //Set plantName Textview to plants name
         holder.plantName.setText(personalPlants.get(position).getName());
+
         //Load image as bitmap from image URL to imageView
         Glide.with(mContext)
                 .asBitmap()
                 .load(personalPlants.get(position).getImageUrl())
                 .into(holder.plantImage);
+        if (personalPlants.get(position).getImageUrl() != null) {
+            Log.d("DEBUG", personalPlants.get(position).getImageUrl());
+        } else {
+            Log.d("DEBUG", "ERROR ERROR ERROR");
+        }
         //check if user is signed in if not hide add to account button
         if(FirebaseAuth.getInstance().getCurrentUser() == null){
             holder.deleteButton.setVisibility(View.INVISIBLE);

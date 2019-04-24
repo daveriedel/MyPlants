@@ -5,6 +5,8 @@
     android:id="@+id/personalPlantConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@drawable/back"
     android:orientation="vertical">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -42,6 +44,8 @@
         android:layout_width="wrap_content"
         android:layout_height="33dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageView3"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
         app:layout_constraintTop_toBottomOf="@+id/deleteButton"
