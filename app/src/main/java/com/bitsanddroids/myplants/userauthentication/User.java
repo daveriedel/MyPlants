@@ -48,4 +48,20 @@ public class User {
         personalPlants.add(personalPlant);
 
     }
+
+    public void deletePlant(int position){
+        personalPlants.remove(position);
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPersonalPlants(ArrayList<PersonalPlant> personalPlants) {
+        this.personalPlants = personalPlants;
+    }
 }

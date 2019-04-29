@@ -12,8 +12,13 @@ import android.widget.TextView;
 import com.bitsanddroids.myplants.R;
 import com.bitsanddroids.myplants.plants.PersonalPlant;
 import com.bitsanddroids.myplants.plants.Plant;
+import com.bitsanddroids.myplants.userauthentication.User;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -66,6 +71,13 @@ public class PersonalCustomRecycleViewAdapter extends RecyclerView.Adapter<Perso
         if(FirebaseAuth.getInstance().getCurrentUser() == null){
             holder.deleteButton.setVisibility(View.INVISIBLE);
         }
+
+       holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               PersonalPlantActivity.deletePlant(position);
+           }
+       });
 
 
     }

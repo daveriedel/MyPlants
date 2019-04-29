@@ -27,13 +27,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class PersonalPlantActivity extends AppCompatActivity {
-    private ArrayList<PersonalPlant> personalPlants = new ArrayList<>();
+    private static ArrayList<PersonalPlant> personalPlants = new ArrayList<>();
     private static FirebaseUser firebaseUser;
-    private FirebaseAuth auth;
-    private FirebaseFirestore db;
+    private static FirebaseAuth auth;
+    private static FirebaseFirestore db;
     private static User user;
 
-    private PersonalCustomRecycleViewAdapter adapter;
+    private static PersonalCustomRecycleViewAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,25 +43,28 @@ public class PersonalPlantActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         db = FirebaseFirestore.getInstance();
-
         initRecyclerView();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 
     public void initPlants() {
 
-            DocumentReference docRef = db.collection("users").document(auth.getUid());
-            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    user = documentSnapshot.toObject(User.class);
-                    personalPlants.addAll(user.getPersonalPlants());
-                    Log.d("DEBUG", "loaded user " + user.getUsername());
-                    Log.d("DEBUG", "loaded plant " + user.getPersonalPlants().get(1).getName());
-
-                    adapter.notifyDataSetChanged();
-                }
-            });
-
+        DocumentReference docRef = db.collection("users").document(auth.getUid());
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                user = documentSnapshot.toObject(User.class);
+                personalPlants.clear();
+                personalPlants.addAll(user.getPersonalPlants());
+                adapter.notifyDataSetChanged();
+            }
+        });
 
 
     }
@@ -74,5 +77,26 @@ public class PersonalPlantActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         initPlants();
+    }
+
+    public static void deletePlant(final int position) {
+
+        final DocumentReference ref = db.collection("users").document(auth.getCurrentUser().getUid());
+
+        if (user != null) {
+
+            personalPlants.remove(position);
+            Log.d("INDEX", Integer.toString(position));
+            user.setPersonalPlants(personalPlants);
+
+            ref.set(user);
+            adapter.notifyItemRemoved(position);
+            adapter.notifyItemRangeChanged(position, adapter.getItemCount());
+
+
+
+        }
+
+
     }
 }
