@@ -3,32 +3,26 @@ package com.bitsanddroids.myplants.mainview;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.bitsanddroids.myplants.R;
-import com.bitsanddroids.myplants.plants.PersonalPlant;
-import com.bitsanddroids.myplants.plants.Plant;
-import com.bitsanddroids.myplants.userauthentication.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bitsanddroids.myplants.R;
+import com.bitsanddroids.myplants.plants.PersonalPlant;
+import com.bitsanddroids.myplants.userauthentication.User;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class PersonalPlantActivity extends AppCompatActivity {
     private static ArrayList<PersonalPlant> personalPlants = new ArrayList<>();
-    private static FirebaseUser firebaseUser;
     private static FirebaseAuth auth;
     private static FirebaseFirestore db;
     private static User user;
@@ -55,7 +49,7 @@ public class PersonalPlantActivity extends AppCompatActivity {
 
     public void initPlants() {
 
-        DocumentReference docRef = db.collection("users").document(auth.getUid());
+        DocumentReference docRef = db.collection("users").document(Objects.requireNonNull(auth.getUid()));
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -63,6 +57,7 @@ public class PersonalPlantActivity extends AppCompatActivity {
                 personalPlants.clear();
                 personalPlants.addAll(user.getPersonalPlants());
                 adapter.notifyDataSetChanged();
+
             }
         });
 
@@ -81,7 +76,7 @@ public class PersonalPlantActivity extends AppCompatActivity {
 
     public static void deletePlant(final int position) {
 
-        final DocumentReference ref = db.collection("users").document(auth.getCurrentUser().getUid());
+        final DocumentReference ref = db.collection("users").document(Objects.requireNonNull(auth.getCurrentUser()).getUid());
 
         if (user != null) {
 

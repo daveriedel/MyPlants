@@ -8,6 +8,8 @@
     <string name="username_textfiedl">Gebruikersnaam</string>
     <string name="email_textview">E-mail</string>
 
+    <string name="add_button">Toevoegen</string>
+
     <string name="menu_login">Login/Registreren</string>
     <string name="menu_my_account">Mijn account</string>
     <string name="menu_my_plants">Mijn planten</string>
