@@ -1,8 +1,10 @@
 package com.bitsanddroids.myplants.plants;
+import java.io.Serializable;
+
 import lombok.Data;
 
 @Data
-public class Plant {
+public class Plant implements Serializable {
 
     private String name;
     private String ImageUrl;
@@ -10,14 +12,14 @@ public class Plant {
     private int placement;
     private int toxic;
     private int water;
-    private boolean edible;
+    private int edible;
     private String plantID;
 
     public Plant(){
 
     }
 
-    public Plant(String name, String imageUrl, int sun, int placement, int toxic, int water, boolean edible) {
+    public Plant(String name, String imageUrl, int sun, int placement, int toxic, int water, int edible) {
         this.name = name;
         this.ImageUrl = imageUrl;
         this.sun = sun;

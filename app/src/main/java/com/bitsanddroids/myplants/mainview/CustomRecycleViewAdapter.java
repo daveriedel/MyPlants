@@ -1,14 +1,17 @@
 package com.bitsanddroids.myplants.mainview;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bitsanddroids.myplants.R;
+import com.bitsanddroids.myplants.infoPages.PlantInfoActivity;
 import com.bitsanddroids.myplants.plants.PersonalPlant;
 import com.bitsanddroids.myplants.plants.Plant;
 import com.bumptech.glide.Glide;
@@ -62,11 +65,22 @@ public class CustomRecycleViewAdapter extends RecyclerView.Adapter<CustomRecycle
         if(FirebaseAuth.getInstance().getCurrentUser() == null){
             holder.collectionButton.setVisibility(View.INVISIBLE);
         }
-        //onclick listener for the
+        //onclick listener for the addbutton
         holder.collectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // makes use of position to know which plant from the plants array to add
                 MainActivity.addPlant(plants.get(position));
+            }
+        });
+
+        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, plants.get(position).getName(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, PlantInfoActivity.class);
+                intent.putExtra("plant", plants.get(position));
+                mContext.startActivity(intent);
             }
         });
 

@@ -12,6 +12,6 @@ public class PersonalPlantOverviewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.personal_plant_overview);
+        setContentView(R.layout.plant_overview);
     }
 }

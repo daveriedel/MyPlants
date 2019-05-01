@@ -12,7 +12,7 @@ public class PersonalPlant {
     private int placement;
     private int toxic;
     private int water;
-    private boolean edible;
+    private int edible;
     private Date watered;
     private String plantID;
     private String placementNote;
@@ -23,7 +23,7 @@ public class PersonalPlant {
 
     }
 
-    public PersonalPlant(String name, String imageUrl, int sun, int placement, int toxic, int water, boolean edible, String userID) {
+    public PersonalPlant(String name, String imageUrl, int sun, int placement, int toxic, int water, int edible, String userID) {
         this.name = name;
         this.ImageUrl = imageUrl;
         this.sun = sun;

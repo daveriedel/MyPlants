@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bitsanddroids.myplants.R;
 import com.bitsanddroids.myplants.plants.PersonalPlant;
@@ -78,6 +79,13 @@ public class PersonalCustomRecycleViewAdapter extends RecyclerView.Adapter<Perso
                PersonalPlantActivity.deletePlant(position);
            }
        });
+
+        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, personalPlants.get(position).getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }
