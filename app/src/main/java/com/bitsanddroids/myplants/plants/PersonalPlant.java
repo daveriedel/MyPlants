@@ -16,6 +16,7 @@ public class PersonalPlant {
     private Date watered;
     private String plantID;
     private String placementNote;
+    private String plantingTime;
 
     private String userID;
 
@@ -23,7 +24,7 @@ public class PersonalPlant {
 
     }
 
-    public PersonalPlant(String name, String imageUrl, int sun, int placement, int toxic, int water, int edible, String userID) {
+    public PersonalPlant(String name, String imageUrl, int sun, int placement, int toxic, int water, int edible, String userID, String plantingTime) {
         this.name = name;
         this.ImageUrl = imageUrl;
         this.sun = sun;
@@ -32,5 +33,6 @@ public class PersonalPlant {
         this.water = water;
         this.edible = edible;
         this.userID = userID;
+        this.plantingTime = plantingTime;
     }
 }

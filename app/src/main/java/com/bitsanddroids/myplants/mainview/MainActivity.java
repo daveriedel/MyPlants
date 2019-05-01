@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseFirestore db;
     private static User user;
+    private static SharedPreferences pref;
     private CustomRecycleViewAdapter adapter;
 
     @Override
@@ -56,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.loginMenu:
                 login();
                 break;
@@ -88,6 +91,10 @@ public class MainActivity extends AppCompatActivity {
 
         //load the current logged in user if logged in
         loadUser();
+
+        pref = this.getSharedPreferences(
+                "com.bitsanddroids.myplants", Context.MODE_PRIVATE
+        );
         //load the data in the reyclerview
         initRecyclerView();
 
@@ -101,29 +108,30 @@ public class MainActivity extends AppCompatActivity {
         loadUser();
     }
 
-    public void login(){
+    public void login() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
-    public void logOut(){
+    public void logOut() {
         FirebaseAuth.getInstance().signOut();
     }
 
-    public void myPlants(){
+    public void myPlants() {
         Intent intent = new Intent(this, PersonalPlantActivity.class);
+        intent.putExtra("user", user);
         startActivity(intent);
     }
 
-    public void initPlants(){
+    public void initPlants() {
 
         db.collection("planten")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()){
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
                                 Plant plant = document.toObject(Plant.class);
                                 plants.add(plant);
                                 adapter.notifyDataSetChanged();
@@ -136,11 +144,17 @@ public class MainActivity extends AppCompatActivity {
                 });
 
     }
+    public void setLanguage(){
+        int language = user.getLanguage();
+        SharedPreferences.Editor prefEditor = pref.edit();
+        prefEditor.putInt("LANGUAGE_KEY", language);
+        prefEditor.apply();
+    }
 
-    public static void addPlant(Plant plant){
+    public static void addPlant(Plant plant) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(firebaseUser != null) {
-            PersonalPlant personalPlant = new PersonalPlant(plant.getName(), plant.getImageUrl(), plant.getSun(), plant.getPlacement(), plant.getToxic(), plant.getWater(), plant.getEdible(), user.getUserId());
+        if (firebaseUser != null) {
+            PersonalPlant personalPlant = new PersonalPlant(plant.getName(), plant.getImageUrl(), plant.getSun(), plant.getPlacement(), plant.getToxic(), plant.getWater(), plant.getEdible(), user.getUserId(), plant.getPlantingTime());
             user.addPlant(personalPlant);
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             DocumentReference personalPlantsRef = db.collection("users").document(user.getUserId());
@@ -149,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void initRecyclerView(){
+    public void initRecyclerView() {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         //initializing the custom recyclerview adapter
@@ -163,13 +177,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void loadUser(){
-        if(firebaseUser != null) {
+    public void loadUser() {
+        if (firebaseUser != null) {
             DocumentReference reference = db.collection("users").document(firebaseUser.getUid());
             reference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     user = documentSnapshot.toObject(User.class);
+                    setLanguage();
                 }
             });
         }

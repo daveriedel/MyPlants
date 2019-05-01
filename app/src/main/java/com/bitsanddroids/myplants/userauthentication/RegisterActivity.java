@@ -70,7 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
                     //check if user is really pressent
                     if (userDB != null) {
                         //create user object to store personalplants and username
-                        User user = new User(userDB.getUid(), usernameEditText.getText().toString());
+                        User user = new User(userDB.getUid(), usernameEditText.getText().toString(), 1);
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
                         db.collection("users")
                                 .document(userDB.getUid())

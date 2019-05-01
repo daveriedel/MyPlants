@@ -9,11 +9,40 @@
     <string name="email_textview">E-mail</string>
 
     <string name="add_button">Toevoegen</string>
-
+    <!-- Menu title strings -->
     <string name="menu_login">Login/Registreren</string>
     <string name="menu_my_account">Mijn account</string>
     <string name="menu_my_plants">Mijn planten</string>
     <string name="menu_logout">Uitloggen</string>
     <string name="menu_contact">Contact</string>
+
+    <!-- plant_sun strings -->
+    <string name="sun1">Deze plant moet direct in de zon staan</string>
+    <string name="sun2">Deze plant heeft indirect / matig zonlicht nodig</string>
+    <string name="sun3">Deze plant moet uit de zon staan</string>
+
+    <!-- plant_placement strings -->
+    <string name="placement1">Deze plant is geschikt voor buiten</string>
+    <string name="placement2">Deze plant is geschikt voor binnen</string>
+
+    <!-- plant_toxic strings -->
+    <string name="toxic1">Deze plant is niet giftig</string>
+    <string name="toxic2">Deze plant is giftig</string>
+    <string name="toxic3">De vruchten van deze plant zijn giftig</string>
+
+    <!-- plant_water strings -->
+    <string name="water1">De grond dient vochtig te blijven</string>
+    <string name="water2">Water geven wanneer de grond \n aan de oppervlakte droogt</string>
+    <string name="water3">Water geven wanneer de grond \n volledig droog is</string>
+
+    <!-- plant_edible strings -->
+    <string name="edible1">Deze plant is eetbaar</string>
+    <string name="edible2">De vruchten van deze plant zijn eetbaar</string>
+    <string name="edible3">Deze plant is niet eetbaar</string>
+
+    <!-- plant_plantingTime strings -->
+    <string name="plantingTime1">Er is geen informatie beschikbaar\nover de zaaiperiode</string>
+
+
 
 </resources>

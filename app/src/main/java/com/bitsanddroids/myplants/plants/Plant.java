@@ -14,12 +14,13 @@ public class Plant implements Serializable {
     private int water;
     private int edible;
     private String plantID;
+    private String plantingTime;
 
     public Plant(){
 
     }
 
-    public Plant(String name, String imageUrl, int sun, int placement, int toxic, int water, int edible) {
+    public Plant(String name, String imageUrl, int sun, int placement, int toxic, int water, int edible, String plantingTime) {
         this.name = name;
         this.ImageUrl = imageUrl;
         this.sun = sun;
@@ -27,6 +28,7 @@ public class Plant implements Serializable {
         this.toxic = toxic;
         this.water = water;
         this.edible = edible;
+        this.plantingTime = plantingTime;
     }
 
 }
