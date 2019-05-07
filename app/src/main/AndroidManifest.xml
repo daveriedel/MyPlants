@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name=".mainview.MainActivity">
@@ -29,10 +29,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".userauthentication.LoginActivity">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+        <activity android:name=".userauthentication.LoginActivity"
+            android:theme="@style/AppTheme.Login">
         </activity>
         <activity android:name=".mainview.PersonalPlantActivity">
             <intent-filter>

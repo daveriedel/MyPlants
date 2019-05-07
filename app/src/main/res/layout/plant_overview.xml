@@ -195,5 +195,11 @@
             app:layout_constraintStart_toEndOf="@+id/sowingImageView"
             app:layout_constraintTop_toTopOf="@+id/sowingImageView" />
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/postsCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/waterDateTextView" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

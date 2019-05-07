@@ -1,7 +1,11 @@
 package com.bitsanddroids.myplants.mainview;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,31 +17,27 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.bitsanddroids.myplants.R;
 import com.bitsanddroids.myplants.plants.PersonalPlant;
 import com.bitsanddroids.myplants.plants.Plant;
 import com.bitsanddroids.myplants.userauthentication.LoginActivity;
-import com.bitsanddroids.myplants.userauthentication.RegisterActivity;
 import com.bitsanddroids.myplants.userauthentication.User;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import static com.google.firebase.firestore.FieldValue.arrayUnion;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,40 +49,51 @@ public class MainActivity extends AppCompatActivity {
     private static SharedPreferences pref;
     private CustomRecycleViewAdapter adapter;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return true;
-    }
+    private DrawerLayout drawerLayout;
+    private ActionBar actionBar;
+    private ActionBarDrawerToggle drawerToggle;
+    private androidx.appcompat.widget.Toolbar mToolbar;
+    private NavigationView navigationView;
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.loginMenu:
-                login();
-                break;
-            case R.id.myAccountMenu:
-
-            case R.id.myPlants:
-                myPlants();
-                break;
-            case R.id.logoutMenu:
-                logOut();
-                break;
-            case R.id.contactMenu:
-
-
+        if (drawerToggle.onOptionsItemSelected(item)){
+            return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        drawerLayout = findViewById(R.id.drawerLayout);
+
+        navigationView = findViewById(R.id.navigation_view);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                UserMenuSelector(menuItem);
+                return false;
+            }
+        });
+
+
+
+        mToolbar = findViewById(R.id.main_page_toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("Home");
+
+        drawerToggle = new ActionBarDrawerToggle(MainActivity.this, drawerLayout , R.string.drawer_open, R.string.drawer_close);
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         plants = new ArrayList<>();
 
         auth = FirebaseAuth.getInstance();
@@ -99,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
         initRecyclerView();
 
 
+
+
     }
 
     @Override
@@ -109,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void login() {
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
     }
 
@@ -121,6 +134,28 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, PersonalPlantActivity.class);
         intent.putExtra("user", user);
         startActivity(intent);
+    }
+
+    private void UserMenuSelector(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.loginMenu:
+                login();
+                Toast.makeText(this,"login",Toast.LENGTH_SHORT).show();
+                drawerLayout.closeDrawer(GravityCompat.START);
+                break;
+            case R.id.myAccountMenu:
+                break;
+            case R.id.myPlants:
+                myPlants();
+                break;
+            case R.id.logoutMenu:
+                logOut();
+                break;
+            case R.id.contactMenu:
+                break;
+
+
+        }
     }
 
     public void initPlants() {

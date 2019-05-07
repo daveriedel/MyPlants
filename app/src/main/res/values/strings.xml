@@ -4,6 +4,9 @@
     <string name="password_textview">Wachtwoord</string>
     <string name="login_button">Inloggen</string>
 
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Closed</string>
+
     <string name="register_link">Registreren</string>
     <string name="username_textfiedl">Gebruikersnaam</string>
     <string name="email_textview">E-mail</string>
@@ -43,6 +46,8 @@
     <!-- plant_plantingTime strings -->
     <string name="plantingTime1">Er is geen informatie beschikbaar\nover de zaaiperiode</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

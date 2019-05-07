@@ -1,10 +1,7 @@
 package com.bitsanddroids.myplants.infoPages;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,12 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bitsanddroids.myplants.R;
 import com.bitsanddroids.myplants.plants.Plant;
-import com.bitsanddroids.myplants.userauthentication.User;
 import com.bumptech.glide.Glide;
 
-import org.w3c.dom.Text;
-
-import java.util.Arrays;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -30,7 +24,7 @@ public class PlantInfoActivity extends AppCompatActivity {
         setContentView(R.layout.plant_overview);
 
         Intent intent = getIntent();
-        Plant plant = (Plant) intent.getExtras().getSerializable("plant");
+        Plant plant = (Plant) Objects.requireNonNull(intent.getExtras()).getSerializable("plant");
 
 
         CircleImageView circleImageView = findViewById(R.id.plantInfoImageView);
@@ -197,7 +191,7 @@ public class PlantInfoActivity extends AppCompatActivity {
 
 
         }else {
-            //if no info is availlable show this text
+            //if no info is available show this text
             sowingText.setText(R.string.plantingTime1);
         }
 
