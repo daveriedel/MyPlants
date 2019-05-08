@@ -1,12 +1,5 @@
 package com.bitsanddroids.myplants.mainview
 
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 
 import android.content.Context
 import android.content.Intent
@@ -15,9 +8,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
-
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bitsanddroids.myplants.R
-import com.bitsanddroids.myplants.plants.PersonalPlant
 import com.bitsanddroids.myplants.plants.Plant
 import com.bitsanddroids.myplants.userauthentication.LoginActivity
 import com.bitsanddroids.myplants.userauthentication.User
@@ -25,9 +23,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-
-
-import java.util.ArrayList
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -102,16 +98,16 @@ class MainActivity : AppCompatActivity() {
         loadUser()
     }
 
-    fun login() {
+    private fun login() {
         val intent = Intent(applicationContext, LoginActivity::class.java)
         startActivity(intent)
     }
 
-    fun logOut() {
+    private fun logOut() {
         FirebaseAuth.getInstance().signOut()
     }
 
-    fun myPlants() {
+    private fun myPlants() {
         val intent = Intent(this, PersonalPlantActivity::class.java)
         //intent.putExtra("user", user)
         startActivity(intent)
@@ -133,7 +129,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun initPlants() {
+    private fun initPlants() {
 
         db.collection("planten")
                 .get()
@@ -151,14 +147,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun setLanguage() {
+    private fun setLanguage() {
         val language = user.language
-        val prefEditor = pref!!.edit()
+        val prefEditor = pref.edit()
         prefEditor.putInt("LANGUAGE_KEY", language)
         prefEditor.apply()
     }
 
-    fun initRecyclerView() {
+    private fun initRecyclerView() {
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         //initializing the custom recyclerview adapter
@@ -172,7 +168,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun loadUser() {
+    private fun loadUser() {
         firebaseUser = auth.currentUser
         if (firebaseUser != null) {
             val reference = db.collection("users").document(firebaseUser!!.uid)

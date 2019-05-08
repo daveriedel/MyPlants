@@ -9,23 +9,19 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-
-import com.bitsanddroids.myplants.R
-import com.bitsanddroids.myplants.plants.PersonalPlant
-import com.bitsanddroids.myplants.plants.Plant
-import com.bitsanddroids.myplants.userauthentication.User
-import com.bumptech.glide.Glide
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-
-import java.util.ArrayList
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.bitsanddroids.myplants.R
+import com.bitsanddroids.myplants.plants.PersonalPlant
+import com.bitsanddroids.myplants.userauthentication.User
+import com.bumptech.glide.Glide
+import com.google.android.material.button.MaterialButton
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 import de.hdodenhof.circleimageview.CircleImageView
+import java.util.*
 
 class PersonalCustomRecycleViewAdapter(private val personalPlants: ArrayList<PersonalPlant>, private val mContext: Context) : RecyclerView.Adapter<PersonalCustomRecycleViewAdapter.ViewHolder>() {
     lateinit var user: User
@@ -91,8 +87,8 @@ class PersonalCustomRecycleViewAdapter(private val personalPlants: ArrayList<Per
         var placementIcon: ImageView = itemView.findViewById(R.id.placementImageView)
         var sunIcon: ImageView = itemView.findViewById(R.id.sunImageView)
         var plantName: TextView = itemView.findViewById(R.id.personalPlantNameTextView)
-        var deleteButton: Button = itemView.findViewById(R.id.deleteButton)
-        var parentLayout: ConstraintLayout = itemView.findViewById(R.id.personalPlantConstraintLayout)
+        var deleteButton: MaterialButton = itemView.findViewById(R.id.deleteButton)
+        var parentLayout: CardView = itemView.findViewById(R.id.personalPlantCardView)
 
 
     }

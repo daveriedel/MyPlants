@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bitsanddroids.myplants.R
@@ -17,6 +18,7 @@ import com.bitsanddroids.myplants.plants.PersonalPlant
 import com.bitsanddroids.myplants.plants.Plant
 import com.bitsanddroids.myplants.userauthentication.User
 import com.bumptech.glide.Glide
+import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -27,8 +29,8 @@ class CustomRecycleViewAdapter(private val plants: ArrayList<Plant>, private val
     private val personalPlants: ArrayList<PersonalPlant>? = null
     lateinit var user: User
     lateinit var db: FirebaseFirestore
-    val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    val firebaseUser: FirebaseUser? = auth.currentUser
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val firebaseUser: FirebaseUser? = auth.currentUser
     //when the viewholder is created
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // Loading the child layout to populate the recyclerview
@@ -37,7 +39,7 @@ class CustomRecycleViewAdapter(private val plants: ArrayList<Plant>, private val
         db = FirebaseFirestore.getInstance()
 
         if (firebaseUser != null) {
-            val reference = db.collection("users").document(firebaseUser!!.uid)
+            val reference = db.collection("users").document(firebaseUser.uid)
             reference.get().addOnSuccessListener { documentSnapshot ->
                 user = documentSnapshot.toObject<User>(User::class.java)!!
 
@@ -87,8 +89,8 @@ class CustomRecycleViewAdapter(private val plants: ArrayList<Plant>, private val
         var placementIcon: ImageView = itemView.findViewById(R.id.placementImageView)
         var sunIcon: ImageView = itemView.findViewById(R.id.sunImageView)
         var plantName: TextView = itemView.findViewById(R.id.plantNameTextview)
-        var collectionButton: Button = itemView.findViewById(R.id.collectionButton)
-        var parentLayout: ConstraintLayout = itemView.findViewById(R.id.plantItemConstraintLayout)
+        var collectionButton: MaterialButton = itemView.findViewById(R.id.collectionButton)
+        var parentLayout: CardView = itemView.findViewById(R.id.plantItemCardView)
 
 
     }

@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#abff51</color>
+    <color name="colorPrimaryDark">#8bc34a</color>
     <color name="colorAccent">#D81B60</color>
     <color name="linkUnclicked"> #0000EE</color>
     <color name="black_text">#000</color>
+    <color name="primary">#8bc34a</color>
+
+    <style name="MyTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+
+        <item name="colorError">#F44336</item>
+        <item name="colorPrimary">#8bc34a</item>
+        <item name="colorSecondary">#8bc34a</item>
+        <item name="colorPrimaryDark">#5a9216</item>
+
+    </style>
 </resources>

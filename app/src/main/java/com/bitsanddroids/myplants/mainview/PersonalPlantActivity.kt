@@ -64,13 +64,13 @@ class PersonalPlantActivity : AppCompatActivity() {
     }
 
     private fun initPlants() {
-        personalPlants!!.clear()
-        personalPlants!!.addAll(user!!.personalPlants!!)
+        personalPlants.clear()
+        personalPlants.addAll(user!!.personalPlants!!)
         adapter!!.notifyDataSetChanged()
 
     }
 
-    fun initRecyclerView() {
+    private fun initRecyclerView() {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         adapter = PersonalCustomRecycleViewAdapter(personalPlants, this@PersonalPlantActivity)
 
