@@ -24,14 +24,31 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.util.ArrayList
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseUser
 import de.hdodenhof.circleimageview.CircleImageView
 
 class PersonalCustomRecycleViewAdapter(private val personalPlants: ArrayList<PersonalPlant>, private val mContext: Context) : RecyclerView.Adapter<PersonalCustomRecycleViewAdapter.ViewHolder>() {
+    lateinit var user: User
+    private lateinit var auth:  FirebaseAuth
+    lateinit var db: FirebaseFirestore
+    private var firebaseUser: FirebaseUser? = null
+
 
     //when the viewholder is created
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // Loading the child layout to populate the recyclerview
         val view = LayoutInflater.from(parent.context).inflate(R.layout.personal_plant_recyclerview_item, parent, false)
+
+        auth = FirebaseAuth.getInstance()
+        db  = FirebaseFirestore.getInstance()
+        firebaseUser = auth.currentUser
+
+        if (firebaseUser != null) {
+            val reference = db.collection("users").document(firebaseUser!!.uid)
+            reference.get().addOnSuccessListener { documentSnapshot ->
+                user = documentSnapshot.toObject<User>(User::class.java)!!
+            }
+        }
 
         return ViewHolder(view)
 
@@ -54,7 +71,10 @@ class PersonalCustomRecycleViewAdapter(private val personalPlants: ArrayList<Per
             holder.deleteButton.visibility = View.INVISIBLE
         }
 
-        holder.deleteButton.setOnClickListener { PersonalPlantActivity.deletePlant(position) }
+        holder.deleteButton.setOnClickListener {
+            user.deletePlant(position)
+
+        }
 
         holder.parentLayout.setOnClickListener { Toast.makeText(mContext, personalPlants[position].name, Toast.LENGTH_SHORT).show() }
 
@@ -67,22 +87,14 @@ class PersonalCustomRecycleViewAdapter(private val personalPlants: ArrayList<Per
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var plantImage: CircleImageView
-        var placementIcon: ImageView
-        var sunIcon: ImageView
-        var plantName: TextView
-        var deleteButton: Button
-        var parentLayout: ConstraintLayout
+        var plantImage: CircleImageView = itemView.findViewById(R.id.personalPlantImageView)
+        var placementIcon: ImageView = itemView.findViewById(R.id.placementImageView)
+        var sunIcon: ImageView = itemView.findViewById(R.id.sunImageView)
+        var plantName: TextView = itemView.findViewById(R.id.personalPlantNameTextView)
+        var deleteButton: Button = itemView.findViewById(R.id.deleteButton)
+        var parentLayout: ConstraintLayout = itemView.findViewById(R.id.personalPlantConstraintLayout)
 
 
-        init {
-            plantImage = itemView.findViewById(R.id.personalPlantImageView)
-            placementIcon = itemView.findViewById(R.id.placementImageView)
-            sunIcon = itemView.findViewById(R.id.sunImageView)
-            parentLayout = itemView.findViewById(R.id.personalPlantConstraintLayout)
-            plantName = itemView.findViewById(R.id.personalPlantNameTextView)
-            deleteButton = itemView.findViewById(R.id.deleteButton)
-        }
     }
 }
 

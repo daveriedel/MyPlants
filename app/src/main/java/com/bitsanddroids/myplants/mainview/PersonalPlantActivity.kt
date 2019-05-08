@@ -2,6 +2,7 @@ package com.bitsanddroids.myplants.mainview
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,16 @@ import java.util.Objects
 
 class PersonalPlantActivity : AppCompatActivity() {
 
+    lateinit var auth: FirebaseAuth
+    lateinit var db: FirebaseFirestore
+    private var user: User? = null
+
+    companion object{
+        var adapter: PersonalCustomRecycleViewAdapter? = null
+        var personalPlants = ArrayList<PersonalPlant>()
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -29,8 +40,22 @@ class PersonalPlantActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         db = FirebaseFirestore.getInstance()
+        loadUser()
         initRecyclerView()
 
+    }
+
+    private fun loadUser() {
+        val userid: String? = auth.uid
+        if (userid != null) {
+            val docRef = db.collection("users").document(Objects.requireNonNull<String>(userid))
+            docRef.get().addOnSuccessListener { documentSnapshot ->
+                user = documentSnapshot.toObject<User>(User::class.java)
+                initPlants()
+            }.addOnFailureListener { exception ->
+                Toast.makeText(this, "failed", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onResume() {
@@ -38,16 +63,10 @@ class PersonalPlantActivity : AppCompatActivity() {
         adapter!!.notifyDataSetChanged()
     }
 
-    fun initPlants() {
-
-        val docRef = db!!.collection("users").document(Objects.requireNonNull<String>(auth!!.uid))
-        docRef.get().addOnSuccessListener { documentSnapshot ->
-            user = documentSnapshot.toObject<User>(User::class.java!!)
-            personalPlants.clear()
-            personalPlants.addAll(user!!.personalPlants!!)
-            adapter!!.notifyDataSetChanged()
-        }
-
+    private fun initPlants() {
+        personalPlants!!.clear()
+        personalPlants!!.addAll(user!!.personalPlants!!)
+        adapter!!.notifyDataSetChanged()
 
     }
 
@@ -58,16 +77,11 @@ class PersonalPlantActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        initPlants()
     }
 
-    companion object {
-        private val personalPlants = ArrayList<PersonalPlant>()
-        private var auth: FirebaseAuth? = null
-        private var db: FirebaseFirestore? = null
-        private var user: User? = null
 
-        private var adapter: PersonalCustomRecycleViewAdapter? = null
+    /*companion object {
+
 
         fun deletePlant(position: Int) {
 
@@ -87,6 +101,6 @@ class PersonalPlantActivity : AppCompatActivity() {
             }
 
 
-        }
-    }
+        }*/
+
 }

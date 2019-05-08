@@ -47,7 +47,7 @@ class RegisterActivity : AppCompatActivity() {
                 //check if user is really pressent
                 if (userDB != null) {
                     //create user object to store personalplants and username
-                    val user = User(userDB.uid, usernameEditText!!.text.toString(), null)
+                    val user = User(userDB.uid, usernameEditText!!.text.toString(), null,1)
                     val db = FirebaseFirestore.getInstance()
                     db.collection("users")
                             .document(userDB.uid)

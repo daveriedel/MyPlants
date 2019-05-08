@@ -32,9 +32,9 @@ import java.util.ArrayList
 class MainActivity : AppCompatActivity() {
 
     lateinit var plants: ArrayList<Plant>
-    lateinit var firebaseUser: FirebaseUser
+    var firebaseUser: FirebaseUser? = null
     lateinit var pref: SharedPreferences
-    private var auth: FirebaseAuth? = null
+    lateinit var auth: FirebaseAuth
     lateinit var db: FirebaseFirestore
     private var adapter: CustomRecycleViewAdapter? = null
     lateinit var user: User
@@ -80,7 +80,8 @@ class MainActivity : AppCompatActivity() {
         plants = ArrayList()
 
         auth = FirebaseAuth.getInstance()
-        firebaseUser = auth!!.currentUser!!
+
+        firebaseUser = auth.currentUser
         db = FirebaseFirestore.getInstance()
 
         //load the current logged in user if logged in
@@ -172,6 +173,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun loadUser() {
+        firebaseUser = auth.currentUser
         if (firebaseUser != null) {
             val reference = db.collection("users").document(firebaseUser!!.uid)
             reference.get().addOnSuccessListener { documentSnapshot ->

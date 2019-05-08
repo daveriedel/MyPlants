@@ -28,7 +28,7 @@ class CustomRecycleViewAdapter(private val plants: ArrayList<Plant>, private val
     lateinit var user: User
     lateinit var db: FirebaseFirestore
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    val firebaseUser = auth.currentUser
+    val firebaseUser: FirebaseUser? = auth.currentUser
     //when the viewholder is created
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // Loading the child layout to populate the recyclerview
@@ -83,22 +83,14 @@ class CustomRecycleViewAdapter(private val plants: ArrayList<Plant>, private val
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var plantImage: CircleImageView
-        var placementIcon: ImageView
-        var sunIcon: ImageView
-        var plantName: TextView
-        var collectionButton: Button
-        var parentLayout: ConstraintLayout
+        var plantImage: CircleImageView = itemView.findViewById(R.id.plantImageView)
+        var placementIcon: ImageView = itemView.findViewById(R.id.placementImageView)
+        var sunIcon: ImageView = itemView.findViewById(R.id.sunImageView)
+        var plantName: TextView = itemView.findViewById(R.id.plantNameTextview)
+        var collectionButton: Button = itemView.findViewById(R.id.collectionButton)
+        var parentLayout: ConstraintLayout = itemView.findViewById(R.id.plantItemConstraintLayout)
 
 
-        init {
-            plantImage = itemView.findViewById(R.id.plantImageView)
-            placementIcon = itemView.findViewById(R.id.placementImageView)
-            sunIcon = itemView.findViewById(R.id.sunImageView)
-            parentLayout = itemView.findViewById(R.id.plantItemConstraintLayout)
-            plantName = itemView.findViewById(R.id.plantNameTextview)
-            collectionButton = itemView.findViewById(R.id.collectionButton)
-        }
     }
 }
 
