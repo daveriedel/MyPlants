@@ -44,14 +44,14 @@
         app:layout_constraintTop_toBottomOf="@+id/personalPlantNameTextView" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/sunImageView"
         android:layout_width="wrap_content"
         android:layout_height="33dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageView3"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
+        app:layout_constraintStart_toEndOf="@+id/placementImageView"
         app:layout_constraintTop_toBottomOf="@+id/deleteButton"
         app:srcCompat="@android:drawable/btn_dialog" />
 
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="@+id/deleteButton"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toEndOf="@+id/sunImageView"
         app:layout_constraintTop_toBottomOf="@+id/deleteButton"
         app:srcCompat="@android:drawable/btn_dialog" />
 
@@ -77,11 +77,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/placementImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+        app:layout_constraintEnd_toStartOf="@+id/sunImageView"
         app:layout_constraintStart_toStartOf="@+id/deleteButton"
         app:layout_constraintTop_toBottomOf="@+id/deleteButton"
         app:srcCompat="@android:drawable/btn_dialog" />
