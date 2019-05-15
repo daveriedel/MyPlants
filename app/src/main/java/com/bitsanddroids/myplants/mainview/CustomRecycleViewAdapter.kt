@@ -67,7 +67,11 @@ class CustomRecycleViewAdapter(private val plants: ArrayList<Plant>, private val
         //onclick listener for the addbutton
         holder.collectionButton.setOnClickListener {
             // makes use of position to know which plant from the plants array to add
-            user.addPlant(plants[position])
+            val reference = db.collection("users").document(firebaseUser!!.uid)
+            reference.get().addOnSuccessListener { documentSnapshot ->
+                user = documentSnapshot.toObject<User>(User::class.java)!!
+                user.addPlant(plants[position])
+            }
         }
 
         holder.parentLayout.setOnClickListener {
@@ -77,6 +81,33 @@ class CustomRecycleViewAdapter(private val plants: ArrayList<Plant>, private val
             mContext.startActivity(intent)
         }
 
+        when (plants[position].placement) {
+            //int 1 placement outside
+            1 -> {
+                holder.placementIcon.setImageResource(R.drawable.ic_tree)
+            }
+            //int 2 placement inside
+            2 -> {
+                holder.placementIcon.setImageResource(R.drawable.ic_home)
+            }
+            else -> holder.placementIcon.setImageResource(R.drawable.ic_tree)
+        }
+        when (plants[position].sun) {
+            //int 1 = full on sun
+            1 -> {
+                holder.sunIcon.setImageResource(R.drawable.ic_sun)
+            }
+            //int 2 = indirect sunlight
+            2 -> {
+                holder.sunIcon.setImageResource(R.drawable.ic_cloud_sun)
+            }
+            //int 3 = shade/dark
+            3 -> {
+                holder.sunIcon.setImageResource(R.drawable.ic_cloud)
+            }
+            //default if no info is pressent
+            else -> holder.sunIcon.setImageResource(R.drawable.ic_sun)
+        }
     }
 
     override fun getItemCount(): Int {

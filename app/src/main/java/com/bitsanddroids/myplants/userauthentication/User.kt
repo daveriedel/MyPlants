@@ -11,7 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.io.Serializable
 
 
-class User :Serializable {
+class User : Serializable {
 
     var userId: String = ""
     var username: String = ""
@@ -19,9 +19,7 @@ class User :Serializable {
     var language: Int = 0
 
 
-
-
-    constructor(){
+    constructor() {
 
     }
 
@@ -33,25 +31,25 @@ class User :Serializable {
     }
 
 
-
-
     fun addPlant(plant: Plant) {
 
         val firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser!!
-        val user:User = this
+        var user: User = this
+        this.personalPlants = user.personalPlants
         if (firebaseUser != null) {
             val personalPlant = PersonalPlant(plant.name, plant.imageUrl, plant.sun, plant.placement, plant.toxic,
                     plant.water, plant.edible, null, plant.plantingTime, null, plant.plantingTime, userId)
-            personalPlants!!.add(personalPlant)
+            this.personalPlants!!.add(personalPlant)
             val db = FirebaseFirestore.getInstance()
             val personalPlantsRef = db.collection("users").document(user.userId)
             personalPlantsRef.set(user)
+
         }
 
     }
 
-    fun deletePlant(position: Int){
-        val user:User = this
+    fun deletePlant(position: Int) {
+        val user: User = this
         val db = FirebaseFirestore.getInstance()
 
         personalPlants!!.removeAt(position)

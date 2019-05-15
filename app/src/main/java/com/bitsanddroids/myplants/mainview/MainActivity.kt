@@ -7,6 +7,8 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -15,14 +17,20 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bitsanddroids.myplants.GlideApp
 import com.bitsanddroids.myplants.R
 import com.bitsanddroids.myplants.plants.Plant
 import com.bitsanddroids.myplants.userauthentication.LoginActivity
 import com.bitsanddroids.myplants.userauthentication.User
+import com.bitsanddroids.myplants.userauthentication.UserPage
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -33,13 +41,15 @@ class MainActivity : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
     lateinit var db: FirebaseFirestore
     private var adapter: CustomRecycleViewAdapter? = null
-    lateinit var user: User
+
     private var drawerLayout: DrawerLayout? = null
-    private val actionBar: ActionBar? = null
     private var drawerToggle: ActionBarDrawerToggle? = null
     private var mToolbar: androidx.appcompat.widget.Toolbar? = null
     private var navigationView: NavigationView? = null
 
+    companion object {
+        lateinit var user: User
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
@@ -53,9 +63,24 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //load the current logged in user if logged in
+
+
+        auth = FirebaseAuth.getInstance()
+
+        firebaseUser = auth.currentUser
+        db = FirebaseFirestore.getInstance()
+
+        loadUser()
+
         drawerLayout = findViewById(R.id.drawerLayout)
 
         navigationView = findViewById(R.id.navigation_view)
+        if (auth.currentUser == null) {
+            navigationView!!.inflateMenu(R.menu.menu_login)
+        } else {
+            navigationView!!.inflateMenu(R.menu.main_menu)
+        }
 
         navigationView!!.setNavigationItemSelectedListener { menuItem ->
             UserMenuSelector(menuItem)
@@ -68,20 +93,19 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(mToolbar)
         supportActionBar!!.title = "Home"
 
+
         drawerToggle = ActionBarDrawerToggle(this@MainActivity, drawerLayout, R.string.drawer_open, R.string.drawer_close)
         drawerLayout!!.addDrawerListener(drawerToggle!!)
+
         drawerToggle!!.syncState()
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         plants = ArrayList()
 
-        auth = FirebaseAuth.getInstance()
 
-        firebaseUser = auth.currentUser
-        db = FirebaseFirestore.getInstance()
 
-        //load the current logged in user if logged in
-        loadUser()
+
+
 
         pref = this.getSharedPreferences(
                 "com.bitsanddroids.myplants", Context.MODE_PRIVATE
@@ -104,7 +128,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun logOut() {
-        FirebaseAuth.getInstance().signOut()
+        auth.signOut()
+        finish()
+        val intent = Intent(applicationContext, MainActivity::class.java)
+        startActivity(intent)
     }
 
     private fun myPlants() {
@@ -115,18 +142,27 @@ class MainActivity : AppCompatActivity() {
 
     private fun UserMenuSelector(menuItem: MenuItem) {
         when (menuItem.itemId) {
-            R.id.loginMenu -> {
+            R.id.menu_login -> {
                 login()
                 Toast.makeText(this, "login", Toast.LENGTH_SHORT).show()
                 drawerLayout!!.closeDrawer(GravityCompat.START)
             }
-            R.id.myAccountMenu -> {
+            R.id.menu_register -> {
+                login()
+                Toast.makeText(this, "login", Toast.LENGTH_SHORT).show()
+                drawerLayout!!.closeDrawer(GravityCompat.START)
             }
+            R.id.myAccountMenu -> userPage()
             R.id.myPlants -> myPlants()
             R.id.logoutMenu -> logOut()
             R.id.contactMenu -> {
             }
         }
+    }
+
+    private fun userPage() {
+        val intent = Intent(applicationContext, UserPage::class.java)
+        startActivity(intent)
     }
 
     private fun initPlants() {
@@ -135,7 +171,7 @@ class MainActivity : AppCompatActivity() {
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        for (document in task.result) {
+                        for (document in task.result!!) {
                             val plant = document.toObject<Plant>(Plant::class.java)
                             plants.add(plant)
                             adapter!!.notifyDataSetChanged()
@@ -175,8 +211,24 @@ class MainActivity : AppCompatActivity() {
             reference.get().addOnSuccessListener { documentSnapshot ->
                 user = documentSnapshot.toObject<User>(User::class.java)!!
                 setLanguage()
+
+                val view: View = navigationView!!.getHeaderView(0)
+                val storage = FirebaseStorage.getInstance()
+                val profilePicture: CircleImageView = view.findViewById(R.id.header_profile_pic)
+                val storageRef = storage.reference.child("profile images").child(MainActivity.user.userId + ".jpg")
+                GlideApp.with(applicationContext)
+                        .asBitmap()
+                        .load(storageRef)
+                        .apply(RequestOptions.skipMemoryCacheOf(true))
+                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                        .into(profilePicture)
+                val username: TextView = view.findViewById(R.id.header_textview_username)
+                username.text = user.username
+
             }
+
         }
+
     }
 
 

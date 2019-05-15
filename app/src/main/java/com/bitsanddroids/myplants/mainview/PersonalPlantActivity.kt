@@ -46,6 +46,7 @@ class PersonalPlantActivity : AppCompatActivity() {
     }
 
     private fun loadUser() {
+
         val userid: String? = auth.uid
         if (userid != null) {
             val docRef = db.collection("users").document(Objects.requireNonNull<String>(userid))
@@ -60,6 +61,8 @@ class PersonalPlantActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        personalPlants.clear()
+        loadUser()
         adapter!!.notifyDataSetChanged()
     }
 
@@ -77,30 +80,6 @@ class PersonalPlantActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-    }
-
-
-    /*companion object {
-
-
-        fun deletePlant(position: Int) {
-
-            val ref = db!!.collection("users").document(Objects.requireNonNull<FirebaseUser>(auth!!.currentUser).getUid())
-
-            if (user != null) {
-
-                personalPlants.removeAt(position)
-                Log.d("INDEX", Integer.toString(position))
-                user!!.personalPlants = personalPlants
-
-                ref.set(user!!)
-                adapter!!.notifyItemRemoved(position)
-                adapter!!.notifyItemRangeChanged(position, adapter!!.itemCount)
-
-
-            }
-
-
-        }*/
+    }       
 
 }

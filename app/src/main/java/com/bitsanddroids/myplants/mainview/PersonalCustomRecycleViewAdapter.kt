@@ -67,6 +67,35 @@ class PersonalCustomRecycleViewAdapter(private val personalPlants: ArrayList<Per
             holder.deleteButton.visibility = View.INVISIBLE
         }
 
+        when (personalPlants[position].placement) {
+            //int 1 placement outside
+            1 -> {
+                holder.placementIcon.setImageResource(R.drawable.ic_tree)
+            }
+            //int 2 placement inside
+            2 -> {
+                holder.placementIcon.setImageResource(R.drawable.ic_home)
+            }
+            else -> holder.placementIcon.setImageResource(R.drawable.ic_tree)
+        }
+        when (personalPlants[position].sun) {
+            //int 1 = full on sun
+            1 -> {
+                holder.sunIcon.setImageResource(R.drawable.ic_sun)
+            }
+            //int 2 = indirect sunlight
+            2 -> {
+                holder.sunIcon.setImageResource(R.drawable.ic_cloud_sun)
+            }
+            //int 3 = shade/dark
+            3 -> {
+                holder.sunIcon.setImageResource(R.drawable.ic_cloud)
+            }
+            //default if no info is pressent
+            else -> holder.sunIcon.setImageResource(R.drawable.ic_sun)
+        }
+
+
         holder.deleteButton.setOnClickListener {
             user.deletePlant(position)
 

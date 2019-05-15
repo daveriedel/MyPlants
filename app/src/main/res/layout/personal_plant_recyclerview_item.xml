@@ -46,8 +46,9 @@
 
     <ImageView
         android:id="@+id/sunImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="33dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:tint="@color/colorPrimaryDark"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,8 +59,9 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:tint="@color/colorPrimaryDark"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="@+id/deleteButton"
         app:layout_constraintStart_toEndOf="@+id/sunImageView"
@@ -79,8 +81,9 @@
 
     <ImageView
         android:id="@+id/placementImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:tint="@color/colorPrimaryDark"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toStartOf="@+id/sunImageView"
         app:layout_constraintStart_toStartOf="@+id/deleteButton"
